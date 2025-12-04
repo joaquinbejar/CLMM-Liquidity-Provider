@@ -45,4 +45,3 @@ impl LiquidityPosition {
 }
 
 use primitive_types::U256;
-

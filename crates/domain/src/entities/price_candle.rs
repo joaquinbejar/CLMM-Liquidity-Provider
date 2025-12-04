@@ -9,11 +9,11 @@ pub struct PriceCandle {
     pub token_b: Token,
     pub start_timestamp: u64,
     pub duration_seconds: u64,
-    
+
     pub open: Price,
     pub high: Price,
     pub low: Price,
     pub close: Price,
-    
+
     pub volume_token_a: Amount,
 }

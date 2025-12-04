@@ -1,9 +1,11 @@
 pub mod amount;
+pub mod optimization_result;
+pub mod percentage;
 pub mod price;
 pub mod price_range;
-pub mod percentage;
 pub mod simulation_result;
-pub mod optimization_result;
+
+pub use optimization_result::OptimizationResult;
 
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};

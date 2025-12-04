@@ -14,3 +14,6 @@ tracing = { workspace = true }
 uuid = { workspace = true }
 chrono = { workspace = true }
 async-trait = { workspace = true }
+anyhow = { workspace = true }
+primitive-types = { workspace = true }
+rust_decimal = { workspace = true }

@@ -1,12 +1,12 @@
-pub mod rpc;
-pub mod solana_client;
+pub mod orca;
 pub mod parsers;
 pub mod raydium;
-pub mod orca; // Whirlpools
+pub mod rpc;
+pub mod solana_client; // Whirlpools
 
-use async_trait::async_trait;
 use amm_domain::entities::pool::Pool;
 use anyhow::Result;
+use async_trait::async_trait;
 
 #[async_trait]
 pub trait PoolFetcher {

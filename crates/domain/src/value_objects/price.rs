@@ -13,7 +13,9 @@ impl Price {
 
     pub fn invert(&self) -> Self {
         if self.value.is_zero() {
-            return Self { value: Decimal::ZERO };
+            return Self {
+                value: Decimal::ZERO,
+            };
         }
         Self {
             value: Decimal::ONE / self.value,

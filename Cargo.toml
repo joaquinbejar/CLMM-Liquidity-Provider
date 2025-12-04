@@ -7,7 +7,7 @@ members = [
     "crates/protocols",
     "crates/execution",
     "crates/data",
-    "crates/api",
+    "crates/api", "crates/cli",
 ]
 
 [workspace.dependencies]

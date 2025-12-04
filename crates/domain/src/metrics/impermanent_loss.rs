@@ -80,37 +80,37 @@ pub fn calculate_il_concentrated(
     // Uniswap logic:
     // if P < lower: amounts are determined by range [lower, upper] assuming P is below. All X.
     // actually, standard delta formulas work if we pass the range correctly.
-    
+
     // Let's use a helper to get amounts at a specific price P for range [Lower, Upper]
     let get_amounts = |p_sqrt: Decimal| -> Result<(Decimal, Decimal), &'static str> {
-         let mut amt0 = Decimal::ZERO;
-         let mut amt1 = Decimal::ZERO;
-         
-         // If P < Lower: Price is below range. Position is all Token0 (X).
-         // Effectively P_current = Lower for the purpose of logic? No.
-         // Standard logic:
-         // Liquidity is active only in [Lower, Upper].
-         // If P < Lower: The curve segment is "above" us. We hold amount0 required to cross [Lower, Upper].
-         // i.e., we are full in X.
-         
-         if p_sqrt < sqrt_lower {
-             // Full range crossing for X
-             let a0 = concentrated_liquidity::get_amount0_delta(liquidity, sqrt_lower, sqrt_upper)?;
-             amt0 = Decimal::from_str(&a0.0.to_string()).unwrap();
-         } else if p_sqrt >= sqrt_upper {
-             // Price > Upper. Position is all Token1 (Y).
-             let a1 = concentrated_liquidity::get_amount1_delta(liquidity, sqrt_lower, sqrt_upper)?;
-             amt1 = Decimal::from_str(&a1.0.to_string()).unwrap();
-         } else {
-             // In range.
-             // X part: from P to Upper
-             let a0 = concentrated_liquidity::get_amount0_delta(liquidity, p_sqrt, sqrt_upper)?;
-             amt0 = Decimal::from_str(&a0.0.to_string()).unwrap();
-             // Y part: from Lower to P
-             let a1 = concentrated_liquidity::get_amount1_delta(liquidity, sqrt_lower, p_sqrt)?;
-             amt1 = Decimal::from_str(&a1.0.to_string()).unwrap();
-         }
-         Ok((amt0, amt1))
+        let mut amt0 = Decimal::ZERO;
+        let mut amt1 = Decimal::ZERO;
+
+        // If P < Lower: Price is below range. Position is all Token0 (X).
+        // Effectively P_current = Lower for the purpose of logic? No.
+        // Standard logic:
+        // Liquidity is active only in [Lower, Upper].
+        // If P < Lower: The curve segment is "above" us. We hold amount0 required to cross [Lower, Upper].
+        // i.e., we are full in X.
+
+        if p_sqrt < sqrt_lower {
+            // Full range crossing for X
+            let a0 = concentrated_liquidity::get_amount0_delta(liquidity, sqrt_lower, sqrt_upper)?;
+            amt0 = Decimal::from_str(&a0.0.to_string()).unwrap();
+        } else if p_sqrt >= sqrt_upper {
+            // Price > Upper. Position is all Token1 (Y).
+            let a1 = concentrated_liquidity::get_amount1_delta(liquidity, sqrt_lower, sqrt_upper)?;
+            amt1 = Decimal::from_str(&a1.0.to_string()).unwrap();
+        } else {
+            // In range.
+            // X part: from P to Upper
+            let a0 = concentrated_liquidity::get_amount0_delta(liquidity, p_sqrt, sqrt_upper)?;
+            amt0 = Decimal::from_str(&a0.0.to_string()).unwrap();
+            // Y part: from Lower to P
+            let a1 = concentrated_liquidity::get_amount1_delta(liquidity, sqrt_lower, p_sqrt)?;
+            amt1 = Decimal::from_str(&a1.0.to_string()).unwrap();
+        }
+        Ok((amt0, amt1))
     };
 
     let (x0, y0) = get_amounts(sqrt_entry)?;
@@ -124,7 +124,7 @@ pub fn calculate_il_concentrated(
 
     if value_held.is_zero() {
         // If we held nothing, no loss/gain reference. (Should not happen with non-zero liq)
-        return Ok(Decimal::ZERO); 
+        return Ok(Decimal::ZERO);
     }
 
     let il = (value_lp - value_held) / value_held;
@@ -142,7 +142,7 @@ mod tests {
         let entry = Decimal::from(100);
         let curr = Decimal::from(200);
         let il = calculate_il_constant_product(entry, curr).unwrap();
-        
+
         let expected = Decimal::from_f64(-0.05719).unwrap();
         let diff = (il - expected).abs();
         assert!(diff < Decimal::from_f64(0.0001).unwrap());
@@ -155,7 +155,7 @@ mod tests {
         let curr = Decimal::from(100);
         let lower = Decimal::from(90);
         let upper = Decimal::from(110);
-        
+
         let il = calculate_il_concentrated(entry, curr, lower, upper).unwrap();
         assert!(il.abs() < Decimal::from_f64(0.000001).unwrap());
 
@@ -169,7 +169,7 @@ mod tests {
         // If Price Up -> 1 X is worth MORE Y.
         // LP sells X as price goes up. So LP holds LESS of the appreciating asset (X).
         // Thus LP Value < Held Value. IL should be negative.
-        
+
         let curr_up = Decimal::from(105);
         let il_up = calculate_il_concentrated(entry, curr_up, lower, upper).unwrap();
         assert!(il_up < Decimal::ZERO);

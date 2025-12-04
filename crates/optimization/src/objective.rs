@@ -5,7 +5,9 @@ use std::cmp::Ordering;
 pub trait ObjectiveFunction {
     fn evaluate(&self, result: &SimulationResult) -> Decimal;
     fn compare(&self, a: &SimulationResult, b: &SimulationResult) -> Ordering {
-        self.evaluate(a).partial_cmp(&self.evaluate(b)).unwrap_or(Ordering::Equal)
+        self.evaluate(a)
+            .partial_cmp(&self.evaluate(b))
+            .unwrap_or(Ordering::Equal)
     }
 }
 

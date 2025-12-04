@@ -10,7 +10,12 @@ pub struct Token {
 }
 
 impl Token {
-    pub fn new(mint: impl Into<String>, symbol: impl Into<String>, decimals: u8, name: impl Into<String>) -> Self {
+    pub fn new(
+        mint: impl Into<String>,
+        symbol: impl Into<String>,
+        decimals: u8,
+        name: impl Into<String>,
+    ) -> Self {
         Self {
             mint_address: mint.into(),
             symbol: symbol.into(),

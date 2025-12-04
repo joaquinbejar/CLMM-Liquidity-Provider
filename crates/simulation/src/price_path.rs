@@ -1,8 +1,7 @@
 use amm_domain::value_objects::price::Price;
+use rand_distr::{Distribution, Normal};
 use rust_decimal::Decimal;
 use rust_decimal::prelude::*;
-use rand::prelude::*;
-use rand_distr::{Normal, Distribution};
 
 pub trait PricePathGenerator {
     fn generate(&mut self, steps: usize) -> Vec<Price>;
@@ -44,7 +43,7 @@ impl PricePathGenerator for GeometricBrownianMotion {
             let z = normal.sample(&mut rng);
             let change = (drift_term + vol_term * z).exp();
             current_price *= change;
-            
+
             // Convert back to Decimal
             // Note: Standard f64 precision might drift from Decimal over simulated time,
             // but for Monte Carlo high performance, f64 is standard.
@@ -77,13 +76,13 @@ mod tests {
         let drift = 0.0;
         let vol = 0.2; // 20%
         let dt = 1.0 / 365.0; // daily
-        
+
         let mut gbm = GeometricBrownianMotion::new(initial, drift, vol, dt);
         let path = gbm.generate(10);
-        
+
         assert_eq!(path.len(), 11); // initial + 10 steps
         assert_eq!(path[0].value, initial);
-        
+
         // Check that prices are not all same (unless vol is 0)
         let all_same = path.iter().all(|p| p.value == initial);
         assert!(!all_same);
