@@ -1,0 +1,16 @@
+[package]
+name = "amm-api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+amm-domain = { workspace = true }
+amm-execution = { workspace = true }
+amm-data = { workspace = true }
+axum = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+thiserror = { workspace = true }

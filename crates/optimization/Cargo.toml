@@ -1,0 +1,16 @@
+[package]
+name = "amm-optimization"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+amm-domain = { workspace = true }
+amm-simulation = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+rust_decimal = { workspace = true }
+
+[dev-dependencies]
+primitive-types = { workspace = true }
+uuid = { workspace = true }

@@ -1,0 +1,17 @@
+[package]
+name = "amm-simulation"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+amm-domain = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+rand = "0.8"
+rand_distr = "0.4"
+rust_decimal = { workspace = true }
+
+[dev-dependencies]
+primitive-types = { workspace = true }
+uuid = { workspace = true }

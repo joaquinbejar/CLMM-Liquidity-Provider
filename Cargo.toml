@@ -1,0 +1,46 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/domain",
+    "crates/simulation",
+    "crates/optimization",
+    "crates/protocols",
+    "crates/execution",
+    "crates/data",
+    "crates/api",
+]
+
+[workspace.dependencies]
+# Internal crates
+amm-domain = { path = "crates/domain" }
+amm-simulation = { path = "crates/simulation" }
+amm-optimization = { path = "crates/optimization" }
+amm-protocols = { path = "crates/protocols" }
+amm-execution = { path = "crates/execution" }
+amm-data = { path = "crates/data" }
+amm-api = { path = "crates/api" }
+
+# External dependencies
+tokio = { version = "1.48", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+uuid = { version = "1.19", features = ["v4", "serde"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "bigdecimal"] }
+solana-client = "3.0"
+solana-sdk = "3.0"
+solana-program = "3.0"
+spl-token = "9.0"
+axum = "0.8"
+rust_decimal = "1.39"
+u256 = "0.1"
+primitive-types = { version = "0.14", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+async-trait = "0.1"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "cors"] }
+zeroize = "1.8"
