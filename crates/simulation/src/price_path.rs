@@ -76,6 +76,31 @@ impl PricePathGenerator for DeterministicPricePath {
     }
 }
 
+/// Historical price path generator that uses a provided list of historical prices.
+/// This is similar to DeterministicPricePath but explicitly designed for backtesting flows
+/// where we might want to iterate or slice the data.
+pub struct HistoricalPricePath {
+    /// The historical prices.
+    pub prices: Vec<Price>,
+}
+
+impl HistoricalPricePath {
+    /// Creates a new HistoricalPricePath.
+    pub fn new(prices: Vec<Price>) -> Self {
+        Self { prices }
+    }
+}
+
+impl PricePathGenerator for HistoricalPricePath {
+    fn generate(&mut self, _steps: usize) -> Vec<Price> {
+        // For historical backtest, we usually want the exact sequence provided.
+        // Steps argument might be used to limit or check length, but here we return the full available path
+        // or up to steps if we wanted to enforce a limit.
+        // For now, return full path.
+        self.prices.clone()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
