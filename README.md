@@ -2,7 +2,7 @@
 <img src="https://raw.githubusercontent.com/joaquinbejar/CLMM-Liquidity-Provider/main/doc/images/logo.png" alt="CLMM Liquidity Provider" style="width: 100%; height: 100%;">
 </div>
 
-[![Dual License](https://img.shields.io/badge/license-MIT%20and%20Apache%202.0-blue)](./LICENSE)
+[![Dual License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![Crates.io](https://img.shields.io/crates/v/clmm-liquidity-provider.svg)](https://crates.io/crates/clmm-liquidity-provider)
 [![Downloads](https://img.shields.io/crates/d/clmm-liquidity-provider.svg)](https://crates.io/crates/clmm-liquidity-provider)
 [![Stars](https://img.shields.io/github/stars/joaquinbejar/CLMM-Liquidity-Provider.svg)](https://github.com/joaquinbejar/CLMM-Liquidity-Provider/stargazers)
