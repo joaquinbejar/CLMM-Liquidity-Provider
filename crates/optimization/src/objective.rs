@@ -37,6 +37,15 @@ pub struct MaximizeSharpeRatio {
     /// Risk-free rate.
     pub risk_free_rate: Decimal,
 }
+
+impl MaximizeSharpeRatio {
+    /// Creates a new MaximizeSharpeRatio objective.
+    #[must_use]
+    pub fn new(risk_free_rate: Decimal) -> Self {
+        Self { risk_free_rate }
+    }
+}
+
 impl ObjectiveFunction for MaximizeSharpeRatio {
     fn evaluate(&self, result: &SimulationResult) -> Decimal {
         // Very simplified Sharpe: Return / MaxDrawdown (Sortino-ish) or just Return if risk is handled elsewhere.

@@ -11,9 +11,6 @@ description = { workspace = true }
 
 [dependencies]
 clmm-lp-domain = { workspace = true }
-serde = { workspace = true }
-tokio = { workspace = true }
-tracing = { workspace = true }
 rand = { workspace = true }
 rand_distr = { workspace = true }
 rust_decimal = { workspace = true }
@@ -21,3 +18,4 @@ rust_decimal = { workspace = true }
 [dev-dependencies]
 primitive-types = { workspace = true }
 uuid = { workspace = true }
+rust_decimal_macros = { workspace = true }

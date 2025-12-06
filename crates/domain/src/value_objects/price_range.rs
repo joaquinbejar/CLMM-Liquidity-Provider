@@ -26,7 +26,7 @@ use serde::{Deserialize, Serialize};
 /// Note: The `Price` type must be predefined with your desired implementation
 /// in order to use this struct effectively.
 /// Represents a price range.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PriceRange {
     /// The lower bound price.
     pub lower_price: Price,

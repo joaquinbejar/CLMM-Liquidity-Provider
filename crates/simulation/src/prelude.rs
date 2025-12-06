@@ -17,9 +17,18 @@ pub use crate::liquidity::{ConstantLiquidity, LiquidityModel};
 // Monte Carlo
 pub use crate::monte_carlo::{AggregateResult, MonteCarloRunner};
 
+// Position tracking
+pub use crate::position_tracker::{PositionSnapshot, PositionTracker, TrackerSummary};
+
 // Price path generators
 pub use crate::price_path::{
     DeterministicPricePath, GeometricBrownianMotion, HistoricalPricePath, PricePathGenerator,
+};
+
+// Strategies
+pub use crate::strategies::{
+    PeriodicRebalance, RebalanceAction, RebalanceReason, RebalanceStrategy, StaticRange,
+    StrategyContext, ThresholdRebalance,
 };
 
 // Volume models

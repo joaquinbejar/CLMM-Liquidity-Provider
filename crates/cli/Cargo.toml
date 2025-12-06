@@ -13,6 +13,7 @@ description = { workspace = true }
 clmm-lp-domain = { workspace = true }
 clmm-lp-data = { workspace = true }
 clmm-lp-simulation = { workspace = true }
+clmm-lp-optimization = { workspace = true }
 tokio = { workspace = true }
 anyhow = { workspace = true }
 dotenv =  { workspace = true }
