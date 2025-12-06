@@ -1,6 +1,4 @@
-<div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/joaquinbejar/CLMM-Liquidity-Provider/main/doc/images/logo.png" alt="CLMM Liquidity Provider" style="width: 100%; height: 100%;">
-</div>
+
 
 [![Dual License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![Crates.io](https://img.shields.io/crates/v/clmm-liquidity-provider.svg)](https://crates.io/crates/clmm-liquidity-provider)
@@ -12,6 +10,10 @@
 [![Coverage](https://img.shields.io/codecov/c/github/joaquinbejar/CLMM-Liquidity-Provider)](https://codecov.io/gh/joaquinbejar/CLMM-Liquidity-Provider)
 [![Dependencies](https://img.shields.io/librariesio/github/joaquinbejar/CLMM-Liquidity-Provider)](https://libraries.io/github/joaquinbejar/CLMM-Liquidity-Provider)
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://docs.rs/clmm-liquidity-provider)
+
+<div style="text-align: center;">
+<img src="https://raw.githubusercontent.com/joaquinbejar/CLMM-Liquidity-Provider/main/doc/images/logo.png" alt="CLMM Liquidity Provider" style="width: 100%; height: 100%;">
+</div>
 
 # CLMM Liquidity Provider Strategy Optimizer - Solana
 
