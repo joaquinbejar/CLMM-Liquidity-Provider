@@ -130,6 +130,32 @@ enum Commands {
         #[arg(long, default_value_t = 100)]
         iterations: usize,
     },
+    /// Database management commands
+    Db {
+        #[command(subcommand)]
+        action: DbAction,
+    },
+}
+
+/// Database management actions.
+#[derive(Subcommand)]
+enum DbAction {
+    /// Initialize the database with migrations
+    Init,
+    /// Show database connection status
+    Status,
+    /// List recent simulations
+    ListSimulations {
+        /// Maximum number of results
+        #[arg(short, long, default_value_t = 10)]
+        limit: i64,
+    },
+    /// List recent optimizations
+    ListOptimizations {
+        /// Maximum number of results
+        #[arg(short, long, default_value_t = 10)]
+        limit: i64,
+    },
 }
 
 #[tokio::main]
@@ -442,6 +468,79 @@ async fn main() -> Result<()> {
 
             // Print optimization results
             print_optimization_report(symbol_a, current_price, volatility, *capital, &result);
+        }
+        Commands::Db { action } => {
+            let database_url = env::var("DATABASE_URL")
+                .unwrap_or_else(|_| "postgres://localhost/clmm_lp".to_string());
+
+            match action {
+                DbAction::Init => {
+                    println!("🔧 Initializing database...");
+                    let db = Database::connect(&database_url).await?;
+                    db.migrate().await?;
+                    println!("✅ Database initialized successfully!");
+                }
+                DbAction::Status => {
+                    println!("🔍 Checking database connection...");
+                    match Database::connect(&database_url).await {
+                        Ok(_) => {
+                            println!("✅ Connected to database: {}", database_url);
+                        }
+                        Err(e) => {
+                            println!("❌ Failed to connect: {}", e);
+                        }
+                    }
+                }
+                DbAction::ListSimulations { limit } => {
+                    let db = Database::connect(&database_url).await?;
+                    let simulations = db.simulations().find_recent(*limit).await?;
+
+                    if simulations.is_empty() {
+                        println!("No simulations found.");
+                    } else {
+                        println!("📊 Recent Simulations:");
+                        println!();
+                        let mut table = Table::new();
+                        table.add_row(row!["ID", "Strategy", "Capital", "Range", "Created"]);
+                        for sim in simulations {
+                            table.add_row(row![
+                                sim.id.to_string()[..8].to_string(),
+                                sim.strategy_type,
+                                format!("${:.2}", sim.initial_capital),
+                                format!("${:.2} - ${:.2}", sim.lower_price, sim.upper_price),
+                                sim.created_at.format("%Y-%m-%d %H:%M")
+                            ]);
+                        }
+                        table.printstd();
+                    }
+                }
+                DbAction::ListOptimizations { limit } => {
+                    let db = Database::connect(&database_url).await?;
+                    let optimizations = db.simulations().find_recent_optimizations(*limit).await?;
+
+                    if optimizations.is_empty() {
+                        println!("No optimizations found.");
+                    } else {
+                        println!("🎯 Recent Optimizations:");
+                        println!();
+                        let mut table = Table::new();
+                        table.add_row(row!["ID", "Objective", "Range", "Expected PnL", "Created"]);
+                        for opt in optimizations {
+                            table.add_row(row![
+                                opt.id.to_string()[..8].to_string(),
+                                opt.objective_type,
+                                format!(
+                                    "${:.2} - ${:.2}",
+                                    opt.recommended_lower, opt.recommended_upper
+                                ),
+                                format!("${:+.4}", opt.expected_pnl),
+                                opt.created_at.format("%Y-%m-%d %H:%M")
+                            ]);
+                        }
+                        table.printstd();
+                    }
+                }
+            }
         }
     }
 

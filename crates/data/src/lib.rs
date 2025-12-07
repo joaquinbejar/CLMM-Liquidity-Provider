@@ -5,7 +5,9 @@ pub mod prelude;
 
 /// Data providers.
 pub mod providers;
-/// Data repositories.
+/// Database repositories.
+pub mod repositories;
+/// Data repositories (legacy).
 pub mod repository;
 
 use anyhow::Result;

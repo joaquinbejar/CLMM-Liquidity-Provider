@@ -12,6 +12,7 @@ description = { workspace = true }
 [dependencies]
 clmm-lp-domain = { workspace = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 tokio = { workspace = true }
 sqlx = { workspace = true }
 reqwest = { workspace = true }

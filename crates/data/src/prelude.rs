@@ -13,3 +13,9 @@ pub use crate::MarketDataProvider;
 
 // Providers
 pub use crate::providers::{BirdeyeProvider, MockMarketDataProvider};
+
+// Database repositories
+pub use crate::repositories::{
+    Database, OptimizationRecord, PoolRecord, PoolRepository, PriceRecord, PriceRepository,
+    SimulationRecord, SimulationRepository, SimulationResultRecord,
+};

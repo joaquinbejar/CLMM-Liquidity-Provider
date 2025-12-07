@@ -41,7 +41,7 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 uuid = { version = "1.19", features = ["v4", "serde"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
-sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "bigdecimal"] }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "bigdecimal", "rust_decimal"] }
 solana-client = "3.1"
 solana-sdk = "3.0"
 solana-program = "3.0"
