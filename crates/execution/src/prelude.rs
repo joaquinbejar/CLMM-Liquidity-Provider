@@ -14,15 +14,38 @@ pub use crate::alerts::{
     MultiNotifier, Notifier, RuleCondition, RuleContext, RulesEngine, WebhookNotifier,
 };
 
+// Emergency
+pub use crate::emergency::{
+    CircuitBreaker, CircuitBreakerConfig, CircuitBreakerStats, CircuitState, EmergencyExitConfig,
+    EmergencyExitManager, ExitResult, ExitStatus,
+};
+
+// Lifecycle
+pub use crate::lifecycle::{
+    AggregateStats, CloseReason, EventData, FeesCollectedData, LifecycleEvent, LifecycleEventType,
+    LifecycleTracker, LiquidityChangeData, PositionClosedData, PositionOpenedData, PositionSummary,
+    RebalanceData, RebalanceReason,
+};
+
 // Monitor
 pub use crate::monitor::{
     MonitorConfig, MonitoredPosition, PnLResult, PnLTracker, PortfolioMetrics, PositionEntry,
     PositionMonitor, PositionPnL, ReconcileResult, StateSynchronizer, SyncState,
 };
 
+// Scheduler
+pub use crate::scheduler::{Schedule, ScheduleBuilder, ScheduledTask, Scheduler, TaskEvent};
+
 // Strategy
 pub use crate::strategy::{
-    Decision, DecisionConfig, DecisionContext, DecisionEngine, ExecutorConfig, StrategyExecutor,
+    Decision, DecisionConfig, DecisionContext, DecisionEngine, ExecutorConfig, ProfitabilityCheck,
+    RebalanceConfig, RebalanceExecutor, RebalanceParams, RebalanceResult, StrategyExecutor,
+};
+
+// Sync
+pub use crate::sync::{
+    AccountListener, AccountListenerConfig, AccountState, AccountUpdate, ReconcileStatus,
+    Reconciler, ReconcilerConfig, Subscription, SubscriptionType,
 };
 
 // Transaction

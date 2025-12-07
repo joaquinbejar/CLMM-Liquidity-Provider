@@ -7,9 +7,11 @@
 
 mod decision;
 mod executor;
+mod rebalance;
 
 pub use decision::*;
 pub use executor::*;
+pub use rebalance::*;
 
 use rust_decimal::Decimal;
 
