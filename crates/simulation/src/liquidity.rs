@@ -4,6 +4,12 @@ use rust_decimal::Decimal;
 pub trait LiquidityModel {
     /// Returns the global active liquidity at a given price.
     fn get_liquidity_at_price(&self, price: Decimal) -> u128;
+
+    /// Returns the global liquidity for a given simulation step.
+    /// Default implementation returns liquidity at price 0 (constant).
+    fn get_liquidity(&self, _step: usize) -> u128 {
+        self.get_liquidity_at_price(Decimal::ZERO)
+    }
 }
 
 /// A simple model with constant global liquidity.

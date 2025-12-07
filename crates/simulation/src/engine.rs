@@ -167,9 +167,7 @@ mod tests {
         let position = create_dummy_position();
         // 1,000,000 units with 6 decimals = 1,000,000 * 10^6 raw
         let raw_amount = U256::from(1_000_000) * U256::from(1_000_000);
-        let volume = ConstantVolume {
-            amount: Amount::new(raw_amount, 6),
-        };
+        let volume = ConstantVolume::from_amount(Amount::new(raw_amount, 6));
         let liquidity_model = ConstantLiquidity::new(10000); // 10x position liquidity
         let fee_rate = Decimal::from_f64(0.003).unwrap();
 
@@ -203,9 +201,7 @@ mod tests {
     #[test]
     fn test_simulation_out_of_range() {
         let position = create_dummy_position();
-        let volume = ConstantVolume {
-            amount: Amount::new(U256::from(1000000), 6),
-        };
+        let volume = ConstantVolume::from_amount(Amount::new(U256::from(1000000), 6));
         let liquidity_model = ConstantLiquidity::new(10000);
         let fee_rate = Decimal::from_f64(0.003).unwrap();
 

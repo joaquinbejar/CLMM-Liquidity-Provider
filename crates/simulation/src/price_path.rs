@@ -70,6 +70,22 @@ pub struct DeterministicPricePath {
     pub prices: Vec<Price>,
 }
 
+impl DeterministicPricePath {
+    /// Creates a new deterministic price path from a vector of Decimals.
+    #[must_use]
+    pub fn new(prices: Vec<Decimal>) -> Self {
+        Self {
+            prices: prices.into_iter().map(Price::new).collect(),
+        }
+    }
+
+    /// Creates a new deterministic price path from a vector of Prices.
+    #[must_use]
+    pub fn from_prices(prices: Vec<Price>) -> Self {
+        Self { prices }
+    }
+}
+
 impl PricePathGenerator for DeterministicPricePath {
     fn generate(&mut self, _steps: usize) -> Vec<Price> {
         self.prices.clone()

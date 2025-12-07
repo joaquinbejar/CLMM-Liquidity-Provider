@@ -151,9 +151,7 @@ mod tests {
     fn test_optimization_recommends_range() {
         let optimizer = RangeOptimizer::new(10, 5, 1.0 / 365.0);
         let position = create_dummy_position();
-        let volume = ConstantVolume {
-            amount: Amount::new(U256::from(1000000), 6),
-        };
+        let volume = ConstantVolume::from_amount(Amount::new(U256::from(1000000), 6));
         let current_price = Decimal::from(100);
         let pool_liquidity = 100_000_000;
         let fee_rate = Decimal::from_f64(0.003).unwrap();

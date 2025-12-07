@@ -295,9 +295,9 @@ async fn main() -> Result<()> {
                 PositionTracker::new(capital_dec, entry_price, initial_range, tx_cost_dec);
 
             // Setup volume and liquidity models
-            let mut volume_model = ConstantVolume {
-                amount: Amount::new(U256::from(1_000_000_000_000u64), 6), // 1M USDC vol per step
-            };
+            let mut volume_model = ConstantVolume::from_amount(
+                Amount::new(U256::from(1_000_000_000_000u64), 6), // 1M USDC vol per step
+            );
             let liquidity_amount = (*capital as u128) * 10;
             let global_liquidity = liquidity_amount * 100; // 1% share
             let fee_rate = Decimal::from_f64(0.003).unwrap();
@@ -436,9 +436,8 @@ async fn main() -> Result<()> {
                 status: PositionStatus::Open,
             };
 
-            let volume = ConstantVolume {
-                amount: Amount::new(U256::from(1_000_000_000_000u64), 6),
-            };
+            let volume =
+                ConstantVolume::from_amount(Amount::new(U256::from(1_000_000_000_000u64), 6));
             let pool_liquidity = (*capital as u128) * 1000;
             let fee_rate = Decimal::from_f64(0.003).unwrap();
 
