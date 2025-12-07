@@ -135,6 +135,20 @@ enum Commands {
         #[command(subcommand)]
         action: DbAction,
     },
+    /// Analyze a token pair's historical data
+    Analyze {
+        /// Token A Symbol (e.g., SOL)
+        #[arg(short, long, default_value = "SOL")]
+        symbol_a: String,
+
+        /// Token A Mint Address
+        #[arg(long, default_value = "So11111111111111111111111111111111111111112")]
+        mint_a: String,
+
+        /// Days of history to analyze
+        #[arg(short, long, default_value_t = 30)]
+        days: u64,
+    },
 }
 
 /// Database management actions.
@@ -541,6 +555,161 @@ async fn main() -> Result<()> {
                     }
                 }
             }
+        }
+        Commands::Analyze {
+            symbol_a,
+            mint_a,
+            days,
+        } => {
+            let api_key = env::var("BIRDEYE_API_KEY")
+                .expect("BIRDEYE_API_KEY must be set in .env or environment");
+
+            println!("📊 Analyzing {}/USDC over {} days...", symbol_a, days);
+            println!();
+
+            let provider = BirdeyeProvider::new(api_key);
+
+            let token_a = Token::new(mint_a, symbol_a, 9, symbol_a);
+            let token_b = Token::new(
+                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "USDC",
+                6,
+                "USD Coin",
+            );
+
+            let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs();
+            let start_time = now - (days * 24 * 3600);
+
+            let candles = provider
+                .get_price_history(&token_a, &token_b, start_time, now, 3600)
+                .await?;
+
+            if candles.is_empty() {
+                println!("❌ No data available for the specified period.");
+                return Ok(());
+            }
+
+            // Calculate statistics
+            let prices: Vec<f64> = candles
+                .iter()
+                .filter_map(|c| c.close.value.to_f64())
+                .collect();
+
+            let current_price = prices.last().copied().unwrap_or(0.0);
+            let first_price = prices.first().copied().unwrap_or(0.0);
+            let max_price = prices.iter().copied().fold(f64::MIN, f64::max);
+            let min_price = prices.iter().copied().fold(f64::MAX, f64::min);
+            let avg_price = prices.iter().sum::<f64>() / prices.len() as f64;
+
+            let price_change = if first_price > 0.0 {
+                (current_price - first_price) / first_price * 100.0
+            } else {
+                0.0
+            };
+
+            let volatility = calculate_volatility(&prices);
+            let volatility_daily = volatility / (365.0_f64).sqrt();
+
+            // Calculate volume stats
+            let total_volume: f64 = candles
+                .iter()
+                .map(|c| c.volume_token_a.to_decimal().to_f64().unwrap_or(0.0))
+                .sum();
+            let avg_hourly_volume = total_volume / candles.len() as f64;
+
+            // Print analysis report
+            println!("🎯 ANALYSIS RESULTS: {}/USDC", symbol_a);
+            println!();
+
+            // Price Statistics Table
+            let mut price_table = Table::new();
+            price_table.add_row(row!["PRICE STATISTICS", ""]);
+            price_table.add_row(row!["Current Price", format!("${:.4}", current_price)]);
+            price_table.add_row(row!["Period Start", format!("${:.4}", first_price)]);
+            price_table.add_row(row!["Period High", format!("${:.4}", max_price)]);
+            price_table.add_row(row!["Period Low", format!("${:.4}", min_price)]);
+            price_table.add_row(row!["Average Price", format!("${:.4}", avg_price)]);
+            price_table.add_row(row!["Price Change", format!("{:+.2}%", price_change)]);
+            price_table.add_row(row![
+                "Price Range",
+                format!("${:.4} - ${:.4}", min_price, max_price)
+            ]);
+            price_table.printstd();
+
+            println!();
+
+            // Volatility Table
+            let mut vol_table = Table::new();
+            vol_table.add_row(row!["VOLATILITY METRICS", ""]);
+            vol_table.add_row(row![
+                "Annualized Volatility",
+                format!("{:.1}%", volatility * 100.0)
+            ]);
+            vol_table.add_row(row![
+                "Daily Volatility",
+                format!("{:.2}%", volatility_daily * 100.0)
+            ]);
+            vol_table.add_row(row!["Data Points", format!("{} candles", candles.len())]);
+            vol_table.printstd();
+
+            println!();
+
+            // Volume Table
+            let mut volume_table = Table::new();
+            volume_table.add_row(row!["VOLUME METRICS", ""]);
+            volume_table.add_row(row![
+                "Total Volume",
+                format!("{:.2} {}", total_volume, symbol_a)
+            ]);
+            volume_table.add_row(row![
+                "Avg Hourly Volume",
+                format!("{:.2} {}", avg_hourly_volume, symbol_a)
+            ]);
+            volume_table.add_row(row![
+                "Avg Daily Volume",
+                format!("{:.2} {}", avg_hourly_volume * 24.0, symbol_a)
+            ]);
+            volume_table.printstd();
+
+            println!();
+
+            // Suggested ranges based on volatility
+            let range_1x = current_price * volatility_daily;
+            let range_2x = current_price * volatility_daily * 2.0;
+
+            let mut suggest_table = Table::new();
+            suggest_table.add_row(row!["SUGGESTED LP RANGES", ""]);
+            suggest_table.add_row(row![
+                "Conservative (1σ daily)",
+                format!(
+                    "${:.2} - ${:.2}",
+                    current_price - range_1x,
+                    current_price + range_1x
+                )
+            ]);
+            suggest_table.add_row(row![
+                "Moderate (2σ daily)",
+                format!(
+                    "${:.2} - ${:.2}",
+                    current_price - range_2x,
+                    current_price + range_2x
+                )
+            ]);
+            suggest_table.add_row(row![
+                "Wide (period range)",
+                format!("${:.2} - ${:.2}", min_price * 0.95, max_price * 1.05)
+            ]);
+            suggest_table.printstd();
+
+            println!();
+            println!("💡 Tip: Use these ranges with the backtest command:");
+            println!(
+                "   clmm-lp-cli backtest --lower {:.2} --upper {:.2} --days {}",
+                current_price - range_2x,
+                current_price + range_2x,
+                days
+            );
+            println!();
         }
     }
 

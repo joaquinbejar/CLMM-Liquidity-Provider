@@ -12,7 +12,8 @@
 pub use crate::MarketDataProvider;
 
 // Providers
-pub use crate::providers::{BirdeyeProvider, MockMarketDataProvider};
+pub use crate::providers::csv_provider::write_candles_to_csv;
+pub use crate::providers::{BirdeyeProvider, CsvProvider, MockMarketDataProvider};
 
 // Database repositories
 pub use crate::repositories::{

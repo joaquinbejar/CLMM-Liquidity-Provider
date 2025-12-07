@@ -27,8 +27,8 @@ pub use crate::price_path::{
 
 // Strategies
 pub use crate::strategies::{
-    PeriodicRebalance, RebalanceAction, RebalanceReason, RebalanceStrategy, StaticRange,
-    StrategyContext, ThresholdRebalance,
+    ILLimitStrategy, PeriodicRebalance, RebalanceAction, RebalanceReason, RebalanceStrategy,
+    StaticRange, StrategyContext, ThresholdRebalance,
 };
 
 // Volume models
