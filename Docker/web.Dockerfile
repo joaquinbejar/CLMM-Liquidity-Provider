@@ -17,8 +17,8 @@ WORKDIR /app
 # Copy package files
 COPY web/package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (using npm install since package-lock.json is not committed)
+RUN npm install --frozen-lockfile 2>/dev/null || npm install
 
 # Copy source files
 COPY web/ ./
