@@ -28,3 +28,4 @@ src/.DS_Store
 /tarpaulin-report.html
 .secrets
 /scripts/
+/web/package-lock.json
