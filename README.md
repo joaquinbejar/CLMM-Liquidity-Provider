@@ -1,4 +1,4 @@
-[![Dual License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue)](./LICENSE)
+[![Dual License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![Stars](https://img.shields.io/github/stars/joaquinbejar/CLMM-Liquidity-Provider.svg)](https://github.com/joaquinbejar/CLMM-Liquidity-Provider/stargazers)
 [![Issues](https://img.shields.io/github/issues/joaquinbejar/CLMM-Liquidity-Provider.svg)](https://github.com/joaquinbejar/CLMM-Liquidity-Provider/issues)
 [![PRs](https://img.shields.io/github/issues-pr/joaquinbejar/CLMM-Liquidity-Provider.svg)](https://github.com/joaquinbejar/CLMM-Liquidity-Provider/pulls)
@@ -49,28 +49,43 @@ The project follows a **Domain-Driven Design (DDD)** approach, separated into mo
 
 ```mermaid
 graph TD
-    User[User / CLI] --> API[API Crate]
-    User --> CLI[CLI Crate]
+    subgraph "User Interfaces"
+        User[User]
+        Browser[Web Browser]
+    end
     
-    subgraph "Core Logic"
-        API --> Domain[Domain Crate]
-        CLI --> Domain
-        Optimization[Optimization Crate] --> Domain
-        Simulation[Simulation Crate] --> Domain
+    User --> CLI[CLI Crate]
+    User --> API[API Crate]
+    Browser --> Dashboard[Web Dashboard]
+    Dashboard --> API
+    
+    subgraph "Application Layer"
+        CLI --> Optimization[Optimization Crate]
+        CLI --> Simulation[Simulation Crate]
+        API --> Execution[Execution Crate]
+        API --> Protocols[Protocols Crate]
+    end
+    
+    subgraph "Core Domain"
+        Optimization --> Domain[Domain Crate]
+        Simulation --> Domain
+        Execution --> Domain
+        Protocols --> Domain
     end
     
     subgraph "Infrastructure"
-        Protocols[Protocols Crate] --> Domain
-        Data[Data Crate] --> Domain
-        Execution[Execution Crate] --> Protocols
+        Simulation --> Data[Data Crate]
+        Execution --> Protocols
+        Protocols --> Data
+        Data --> DB[(PostgreSQL)]
     end
     
-    Simulation --> Data
-    Optimization --> Simulation
-    Execution --> Domain
-    
-    Protocols -.-> |RPC| Solana[Solana Blockchain]
-    Data -.-> |HTTP| PriceAPI[Birdeye / Jupiter API]
+    subgraph "External Services"
+        Protocols -.-> |RPC| Solana[Solana Blockchain]
+        Data -.-> |HTTP| Birdeye[Birdeye API]
+        Data -.-> |HTTP| Jupiter[Jupiter API]
+        API -.-> |WebSocket| Clients[WS Clients]
+    end
 ```
 
 ### Module Overview
