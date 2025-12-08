@@ -22,9 +22,12 @@ pub use crate::events::{
 };
 
 // Orca
+pub use crate::orca::executor::{
+    DecreaseLiquidityParams, ExecutionResult, IncreaseLiquidityParams, OpenPositionParams,
+    WhirlpoolExecutor,
+};
 pub use crate::orca::pool_reader::{
-    WHIRLPOOL_PROGRAM_ID, WhirlpoolReader, WhirlpoolState, calculate_tick_range, price_to_tick,
-    tick_to_price,
+    WhirlpoolReader, WhirlpoolState, calculate_tick_range, price_to_tick, tick_to_price,
 };
 pub use crate::orca::position_reader::{PositionReader, WhirlpoolPosition};
 pub use crate::orca::provider::OrcaPoolProvider;

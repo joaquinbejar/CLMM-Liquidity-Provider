@@ -2,6 +2,7 @@
 
 use crate::handlers::health::init_start_time;
 use crate::middleware::{RateLimiter, request_logging};
+use crate::openapi::ApiDoc;
 use crate::routes::create_versioned_router;
 use crate::state::{ApiConfig, AppState};
 use axum::{Router, middleware};
@@ -17,6 +18,8 @@ use tower_http::{
     trace::TraceLayer,
 };
 use tracing::info;
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 /// Server configuration.
 #[derive(Debug, Clone)]
@@ -75,6 +78,10 @@ impl ApiServer {
         ));
 
         let mut router = create_versioned_router(self.state.clone());
+
+        // Add Swagger UI at /docs
+        router =
+            router.merge(SwaggerUi::new("/docs").url("/api-docs/openapi.json", ApiDoc::openapi()));
 
         // Add middleware
         router = router.layer(middleware::from_fn(request_logging));

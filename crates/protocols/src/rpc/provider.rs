@@ -254,6 +254,61 @@ impl RpcProvider {
             let _ = self.health.check_endpoint(endpoint).await;
         }
     }
+
+    /// Simulates a transaction without broadcasting.
+    pub async fn simulate_transaction(
+        &self,
+        transaction: &solana_sdk::transaction::Transaction,
+    ) -> Result<solana_client::rpc_response::RpcSimulateTransactionResult> {
+        let tx = transaction.clone();
+        self.execute_with_retry(|client| {
+            let tx = tx.clone();
+            async move {
+                let response = client
+                    .simulate_transaction(&tx)
+                    .await
+                    .context("Failed to simulate transaction")?;
+                Ok(response.value)
+            }
+        })
+        .await
+    }
+
+    /// Sends and confirms a transaction.
+    pub async fn send_and_confirm_transaction(
+        &self,
+        transaction: &solana_sdk::transaction::Transaction,
+    ) -> Result<Signature> {
+        let tx = transaction.clone();
+        self.execute_with_retry(|client| {
+            let tx = tx.clone();
+            async move {
+                client
+                    .send_and_confirm_transaction(&tx)
+                    .await
+                    .context("Failed to send and confirm transaction")
+            }
+        })
+        .await
+    }
+
+    /// Sends a transaction without waiting for confirmation.
+    pub async fn send_transaction(
+        &self,
+        transaction: &solana_sdk::transaction::Transaction,
+    ) -> Result<Signature> {
+        let tx = transaction.clone();
+        self.execute_with_retry(|client| {
+            let tx = tx.clone();
+            async move {
+                client
+                    .send_transaction(&tx)
+                    .await
+                    .context("Failed to send transaction")
+            }
+        })
+        .await
+    }
 }
 
 /// Calculates exponential backoff delay.

@@ -35,3 +35,9 @@ pub use crate::routes::{create_router, create_versioned_router};
 
 // Services
 pub use crate::services::{PositionService, StrategyService};
+
+// Authentication
+pub use crate::auth::{AuthConfig, AuthError, AuthState, Claims, Role};
+
+// OpenAPI
+pub use crate::openapi::ApiDoc;
