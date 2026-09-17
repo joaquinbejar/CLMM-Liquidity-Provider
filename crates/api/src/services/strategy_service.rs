@@ -101,7 +101,7 @@ impl StrategyService {
         };
 
         // Create strategy executor
-        let executor = StrategyExecutor::new(
+        let mut executor = StrategyExecutor::new(
             self.state.provider.clone(),
             self.state.monitor.clone(),
             self.state.tx_manager.clone(),
@@ -132,8 +132,7 @@ impl StrategyService {
                 decision_config.min_rebalance_interval_hours = val;
             }
 
-            // Note: Would need mutable access to set config
-            // executor.set_decision_config(decision_config);
+            executor.set_decision_config(decision_config);
         }
 
         let executor = Arc::new(RwLock::new(executor));
