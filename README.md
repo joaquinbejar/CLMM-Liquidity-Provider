@@ -147,7 +147,7 @@ graph TD
 
 ## 📅 Roadmap & Status
 
-The project is being built in incremental phases. **Current version: 0.1.1-alpha.2**
+The project is being built in incremental phases. **Current version: 0.2.0**
 
 | Phase | Name | Status | Progress |
 |-------|------|--------|----------|

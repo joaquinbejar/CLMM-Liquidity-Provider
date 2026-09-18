@@ -106,7 +106,7 @@ export default function Layout() {
           </Button>
           <div className="flex-1" />
           <div className="text-sm text-muted-foreground">
-            v0.1.1-alpha.2
+            v0.2.0
           </div>
         </header>
 
