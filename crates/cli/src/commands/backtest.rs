@@ -258,7 +258,7 @@ fn run_simulation(args: &BacktestArgs, prices: &[Price]) -> Result<BacktestRepor
 
 /// Generates synthetic prices for testing.
 fn generate_synthetic_prices(count: usize) -> Vec<Price> {
-    use rand::Rng;
+    use rand::RngExt;
 
     let mut rng = rand::rng();
     let mut price = 100.0_f64;

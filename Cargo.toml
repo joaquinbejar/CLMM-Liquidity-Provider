@@ -32,34 +32,34 @@ clmm-lp-api = { path = "crates/api", version = "0.1.1-alpha.3" }
 clmm-lp-cli = { path = "crates/cli", version = "0.1.1-alpha.3" }
 
 # External dependencies
-tokio = { version = "1.48", features = ["full"] }
+tokio = { version = "1.53", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "2.0"
 anyhow = "1.0"
 tracing = "0.1"
 tracing-subscriber = "0.3"
-uuid = { version = "1.19", features = ["v4", "serde"] }
-reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
-sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "bigdecimal", "rust_decimal"] }
-solana-client = "3.1"
-solana-sdk = "3.0"
-solana-program = "3.0"
+uuid = { version = "1.26", features = ["v4", "serde"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "tls-rustls", "postgres", "uuid", "chrono", "bigdecimal", "rust_decimal", "json"] }
+solana-client = "4.2"
+solana-sdk = "4.0"
+solana-program = "4.0"
 spl-token = "9.0"
 axum = "0.8"
-rust_decimal = "1.39"
+rust_decimal = "1.43"
 u256 = "0.1"
 primitive-types = { version = "0.14", features = ["serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 async-trait = "0.1"
 tower = "0.5"
-tower-http = { version = "0.6", features = ["trace", "cors"] }
-zeroize = "1.8"
-rand = "0.9"
+tower-http = { version = "0.7", features = ["trace", "cors"] }
+zeroize = "1.9"
+rand = "0.10"
 dotenv = "0.15"
-clap = "4.5"
-borsh = "1.6"
-rand_distr = "0.5"
-rust_decimal_macros = "1.39"
+clap = "4.6"
+borsh = "1.8"
+rand_distr = "0.6"
+rust_decimal_macros = "1.40"
 prettytable-rs = "0.10"
 futures = "0.3"
