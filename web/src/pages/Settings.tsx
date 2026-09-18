@@ -82,7 +82,7 @@ export default function Settings() {
         <CardContent className="space-y-2">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Version</span>
-            <span>0.1.1-alpha.2</span>
+            <span>0.2.0</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Build</span>

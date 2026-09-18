@@ -11,7 +11,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.1-alpha.3"
+version = "0.2.0"
 authors = ["Joaquín Béjar García <jb@taunais.com>"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
@@ -22,14 +22,14 @@ description = "Liquidity Provider Strategy Optimizer for Solana CLMMs"
 
 [workspace.dependencies]
 # Internal crates
-clmm-lp-domain = { path = "crates/domain", version = "0.1.1-alpha.3" }
-clmm-lp-simulation = { path = "crates/simulation", version = "0.1.1-alpha.3" }
-clmm-lp-optimization = { path = "crates/optimization", version = "0.1.1-alpha.3" }
-clmm-lp-protocols = { path = "crates/protocols", version = "0.1.1-alpha.3" }
-clmm-lp-execution = { path = "crates/execution", version = "0.1.1-alpha.3" }
-clmm-lp-data = { path = "crates/data", version = "0.1.1-alpha.3" }
-clmm-lp-api = { path = "crates/api", version = "0.1.1-alpha.3" }
-clmm-lp-cli = { path = "crates/cli", version = "0.1.1-alpha.3" }
+clmm-lp-domain = { path = "crates/domain", version = "0.2" }
+clmm-lp-simulation = { path = "crates/simulation", version = "0.2" }
+clmm-lp-optimization = { path = "crates/optimization", version = "0.2" }
+clmm-lp-protocols = { path = "crates/protocols", version = "0.2" }
+clmm-lp-execution = { path = "crates/execution", version = "0.2" }
+clmm-lp-data = { path = "crates/data", version = "0.2" }
+clmm-lp-api = { path = "crates/api", version = "0.2" }
+clmm-lp-cli = { path = "crates/cli", version = "0.2" }
 
 # External dependencies
 tokio = { version = "1.53", features = ["full"] }
