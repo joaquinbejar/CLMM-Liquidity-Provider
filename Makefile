@@ -96,24 +96,34 @@ publish-dry-run:
 	cargo publish -p clmm-lp-cli --dry-run
 
 # Run the project
+# Minimum cargo-tarpaulin: older releases cannot read the coverage data written
+# by Rust 1.99+. Reinstall when the local binary is missing or older than this,
+# instead of only checking that it exists.
+TARPAULIN_VERSION := 0.37.5
+
+.PHONY: check-cargo-tarpaulin
+check-cargo-tarpaulin:
+	@v=$$(cargo tarpaulin --version 2>/dev/null | awk '{print $$NF}'); \
+	if [ -z "$$v" ] || [ "$$(printf '%s\n%s\n' '$(TARPAULIN_VERSION)' "$$v" | sort -V | head -n1)" != '$(TARPAULIN_VERSION)' ]; then \
+		echo "Installing cargo-tarpaulin >= $(TARPAULIN_VERSION) (found: $${v:-none})"; \
+		cargo install cargo-tarpaulin --locked --version '>=$(TARPAULIN_VERSION)'; \
+	fi
+
 .PHONY: coverage
-coverage:
+coverage: check-cargo-tarpaulin
 	export LOGLEVEL=WARN
-	cargo install cargo-tarpaulin
 	mkdir -p coverage
 	cargo tarpaulin --exclude-files 'benches/**' --all-features --workspace --timeout 120 --out Xml
 
 .PHONY: coverage-html
-coverage-html:
+coverage-html: check-cargo-tarpaulin
 	export LOGLEVEL=WARN
-	cargo install cargo-tarpaulin
 	mkdir -p coverage
 	cargo tarpaulin --exclude-files 'benches/**' --verbose --all-features --workspace --timeout 120 --out Html --output-dir coverage
 
 .PHONY: coverage-json
-coverage-json:
+coverage-json: check-cargo-tarpaulin
 	export LOGLEVEL=WARN
-	cargo install cargo-tarpaulin
 	mkdir -p coverage
 	cargo tarpaulin --exclude-files 'benches/**' --verbose --all-features --workspace --timeout 120 --out Json --output-dir coverage
 
