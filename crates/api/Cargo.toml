@@ -1,6 +1,6 @@
 [package]
 name = "clmm-lp-api"
-version = "0.2.0"
+version = "0.2.1"
 authors = { workspace = true }
 edition = "2024"
 license = { workspace = true }
@@ -39,5 +39,5 @@ chrono = { workspace = true }
 uuid = { workspace = true, features = ["v4", "serde"] }
 solana-sdk = { workspace = true }
 futures = { workspace = true }
-utoipa = { version = "5", features = ["axum_extras"] }
-utoipa-swagger-ui = { version = "9", features = ["axum"] }
+utoipa = { version = "6.0", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "10.0", features = ["axum"] }
