@@ -675,11 +675,11 @@ We welcome contributions! Please follow these steps:
 
 ## 📞 Contact
 
+### **Contact Information**
 - **Author**: Joaquín Béjar García
 - **Email**: jb@taunais.com
 - **Telegram**: [@joaquin_bejar](https://t.me/joaquin_bejar)
 - **Repository**: <https://github.com/joaquinbejar/CLMM-Liquidity-Provider>
-- **Documentation**: <https://docs.rs/clmm-liquidity-provider>
 
 ---
 
@@ -697,3 +697,10 @@ You may choose either license.
 ## ⚠️ Disclaimer
 
 This software is provided for educational and research purposes. Trading cryptocurrencies and providing liquidity involves significant risk. The authors are not responsible for any financial losses incurred through the use of this software. Always do your own research and never invest more than you can afford to lose.
+
+<!-- related-projects:start -->
+## Related projects
+
+No other repositories by the same author depend on this project, and it depends on none of them. See all of them at <https://github.com/joaquinbejar?tab=repositories>.
+
+<!-- related-projects:end -->
